@@ -38,6 +38,9 @@ n_exp = 10000;                  // number of times the same population was allow
 
 s = 0.0;                     // selection coefficient
 
+mu_A = 0.0000;                  // mutation rate (A -> a) 
+mu_a = 0.0000;                  // mutation rate (a -> A) 
+
 //***************************************************************************
 
 fix_A = 0;
@@ -104,6 +107,43 @@ break;
 }
 }  
 } 
+
+//**************     Adding mutations         ***************************
+
+if((mu_A!=0)||(mu_a!=0))           // 'mu_A' and 'mu_a' are the mutation rates of alleles/types 'A' and 'a' respectively 
+{
+for(i=1; i<=(Pop_size); i++)
+{
+ran_A = (rand()/(1.0*RAND_MAX));
+ran_a = (rand()/(1.0*RAND_MAX));
+
+if(type_inter[i]=='a')  
+{
+if((ran_a < mu_a)&&(ran_A > mu_A))  // a -> A
+{     
+w_inter[i] = 1 + s;
+type_inter[i] = 'A';
+tot_A[t]+=1;             
+}
+
+}
+
+if(type_inter[i]=='A')  
+{
+
+if((ran_A < mu_A)&&(ran_a > mu_a))  // A -> a
+{     
+w_inter[i] = 1;
+type_inter[i] = 'a';
+tot_A[t]-=1;             
+}
+
+}
+
+}
+}
+
+//**************     Adding mutations         ***************************
 
 for(i=1; i<=(Pop_size); i++)
 {
